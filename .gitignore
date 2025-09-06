@@ -1,0 +1,4 @@
+# Ignore specific folders
+NiaAspBlazor/
+VueClient/reactclient/
+.vs/

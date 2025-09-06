@@ -1,0 +1,162 @@
+﻿@page "/admin/user/create"
+@rendermode InteractiveServer
+@inject HttpClient Http
+@using Nia.Domain.Entities
+@using Nia.Application.Dtos
+@using Radzen
+@using System.Text.Json
+<main class="h-full pb-16 overflow-y-auto">
+    <div class="mt-3">
+        <h2 class="h4 fw-semibold text-dark mb-1">User Accounts</h2>
+        <p class="ms-1 text-muted fw-semibold admn-title">Add account</p>
+    </div>
+    <div class="rz-p-0 rz-p-md-12" style="padding: 0 !important;">
+
+        <RadzenTemplateForm TItem="UserDto" Data=@userDto Submit=@OnSubmit InvalidSubmit=@OnInvalidSubmit>
+            <RadzenStack Gap="1rem" class="rz-p-sm-12" Style="padding: 20px !important; background-color: white;">
+
+                <InputFile Name="Image"
+                           OnChange="OnImageChange" />
+
+                <RadzenFormField Text="Full Name" Variant="@variant">
+                    <ChildContent>
+                        <RadzenTextBox Name="Fullname" @bind-Value=@userDto.FullName />
+                    </ChildContent>
+                    <Helper>
+                        <RadzenRequiredValidator Component="Fullname" Text="Full name is required." />
+                    </Helper>
+                </RadzenFormField>
+                <RadzenFormField Text="Username" Variant="@variant">
+                    <ChildContent>
+                        <RadzenTextBox Name="Username" @bind-Value=@userDto.Username />
+                    </ChildContent>
+                    <Helper>
+                        <RadzenRequiredValidator Component="Username" Text="Username is required." />
+                    </Helper>
+                </RadzenFormField>
+                <RadzenFormField Text="Email" Variant="@variant">
+                    <ChildContent>
+                        <RadzenTextBox Name="Email" @bind-Value=@userDto.Email />
+                    </ChildContent>
+                    <Helper>
+                        <RadzenRequiredValidator Component="Email" Text="Email is required." />
+                        <RadzenEmailValidator Component="Email" Text="Provide a valid email address" Popup=@popup Style="position: absolute" />
+                    </Helper>
+                </RadzenFormField>
+                <RadzenFormField Text="Location" Variant="@variant">
+                    <ChildContent>
+                        <RadzenDropDown @bind-Value="userDto.LocationId" Name="Location" Style="width: 100%" Data="@locations" />
+                    </ChildContent>
+                    <Helper>
+                        <RadzenRequiredValidator Component="Location" Text="Location is required." />
+                    </Helper>
+                </RadzenFormField>
+                <RadzenFormField Text="Password" Variant="@variant">
+                    <ChildContent>
+                        <RadzenPassword Name="Password" @bind-Value="@userDto.Password" Style="width: 100%;" />
+                    </ChildContent>
+                    <Helper>
+                        <RadzenRequiredValidator Component="Password" Text="Password is required." />
+                    </Helper>
+                </RadzenFormField>
+
+                <RadzenFormField Text="Confirm Password" Variant="@variant">
+                    <ChildContent>
+                        <RadzenPassword Name="PasswordConfirmation" @bind-Value="@userDto.PasswordConfirmation" Style="width: 100%;" />
+                    </ChildContent>
+                    <Helper>
+                        <RadzenRequiredValidator Component="PasswordConfirmation" Text="Confirm password is required." />
+                        <RadzenCompareValidator Visible=@(!string.IsNullOrEmpty(userDto.PasswordConfirmation)) Value=@userDto.Password Component="PasswordConfirmation" Text="Passwords should be the same" Popup=@popup Style="position: absolute" />
+                    </Helper>
+                </RadzenFormField>
+                <div class="d-flex">
+                    <div class="col-6">
+                        <RadzenButton ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Submit" Text="Add"></RadzenButton>
+                    </div>
+
+                </div>
+            </RadzenStack>
+        </RadzenTemplateForm>
+
+        @* <EventConsole @ref=@console /> *@
+
+    </div>
+</main>
+
+@code {
+
+    // [SupplyParameterFromForm]
+    private UserDto userDto = new();
+    private IBrowserFile? selectedImage;
+
+    [Inject] public NotificationService? NotificationService { get; set; }
+    private bool popup = true; // whether to show validators as popups
+
+    void ShowNotification(NotificationMessage message)
+    {
+        NotificationService.Notify(message);
+    }
+
+
+    Variant variant = Variant.Outlined;
+
+    void OnImageChange(InputFileChangeEventArgs e)
+    {
+        selectedImage = e.File;
+        userDto.ImagePath = e.File;
+    }
+
+    async Task OnSubmit(UserDto model)
+    {
+        using var content = new MultipartFormDataContent();
+
+        content.Add(new StringContent(model.FullName), "FullName");
+        content.Add(new StringContent(model.Username), "Username");
+        content.Add(new StringContent(model.Email ?? ""), "Email");
+        content.Add(new StringContent(model.Password), "Password");
+        content.Add(new StringContent(model.PasswordConfirmation), "PasswordConfirmation");
+        content.Add(new StringContent(model.LocationId.ToString()), "LocationId");
+
+
+
+        // Add file
+        if (model.ImagePath is not null)
+        {
+            var fileContent = new StreamContent(model.ImagePath.OpenReadStream(1024 * 1024 * 15)); // 15MB max
+            fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(model.ImagePath.ContentType);
+            content.Add(fileContent, "ImagePath", model.ImagePath.Name);
+        }
+        try
+        {
+            var response = await Http.PostAsync("/api/user/register", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var user = await response.Content.ReadFromJsonAsync<User>();
+                ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Add New User", Detail = "New User Added Successfully", Duration = 4000 });
+            }
+            else
+            {
+                NotificationService.Notify(NotificationSeverity.Warning, "Validation", "User Already Exist");
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService?.Notify(NotificationSeverity.Error, "Unexpected Error", ex.Message);
+        }
+    }
+
+    void OnInvalidSubmit(FormInvalidSubmitEventArgs args)
+    {
+        NotificationService.Notify(NotificationSeverity.Warning, "Validation", "Please fix the validation errors.");
+    }
+
+
+
+
+
+    private List<int> locations = new()
+    {
+        1, 2,3,4
+    };
+}

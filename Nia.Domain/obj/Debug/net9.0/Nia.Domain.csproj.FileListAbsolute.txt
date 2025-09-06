@@ -1,0 +1,11 @@
+C:\Users\fidel\source\repos\NIA\Nia.Domain\bin\Debug\net9.0\Nia.Domain.deps.json
+C:\Users\fidel\source\repos\NIA\Nia.Domain\bin\Debug\net9.0\Nia.Domain.dll
+C:\Users\fidel\source\repos\NIA\Nia.Domain\bin\Debug\net9.0\Nia.Domain.pdb
+C:\Users\fidel\source\repos\NIA\Nia.Domain\obj\Debug\net9.0\Nia.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fidel\source\repos\NIA\Nia.Domain\obj\Debug\net9.0\Nia.Domain.AssemblyInfoInputs.cache
+C:\Users\fidel\source\repos\NIA\Nia.Domain\obj\Debug\net9.0\Nia.Domain.AssemblyInfo.cs
+C:\Users\fidel\source\repos\NIA\Nia.Domain\obj\Debug\net9.0\Nia.Domain.csproj.CoreCompileInputs.cache
+C:\Users\fidel\source\repos\NIA\Nia.Domain\obj\Debug\net9.0\Nia.Domain.dll
+C:\Users\fidel\source\repos\NIA\Nia.Domain\obj\Debug\net9.0\refint\Nia.Domain.dll
+C:\Users\fidel\source\repos\NIA\Nia.Domain\obj\Debug\net9.0\Nia.Domain.pdb
+C:\Users\fidel\source\repos\NIA\Nia.Domain\obj\Debug\net9.0\ref\Nia.Domain.dll

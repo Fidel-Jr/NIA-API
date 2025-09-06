@@ -1,0 +1,15 @@
+C:\Users\fidel\source\repos\NIA\Nia.Application\bin\Debug\net9.0\Nia.Application.deps.json
+C:\Users\fidel\source\repos\NIA\Nia.Application\bin\Debug\net9.0\Nia.Application.dll
+C:\Users\fidel\source\repos\NIA\Nia.Application\bin\Debug\net9.0\Nia.Application.pdb
+C:\Users\fidel\source\repos\NIA\Nia.Application\bin\Debug\net9.0\Nia.Domain.dll
+C:\Users\fidel\source\repos\NIA\Nia.Application\bin\Debug\net9.0\Nia.Domain.pdb
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\Nia.Application.csproj.AssemblyReference.cache
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\Nia.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\Nia.Application.AssemblyInfoInputs.cache
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\Nia.Application.AssemblyInfo.cs
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\Nia.Application.csproj.CoreCompileInputs.cache
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\Nia.Appl.D4E820ED.Up2Date
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\Nia.Application.dll
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\refint\Nia.Application.dll
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\Nia.Application.pdb
+C:\Users\fidel\source\repos\NIA\Nia.Application\obj\Debug\net9.0\ref\Nia.Application.dll

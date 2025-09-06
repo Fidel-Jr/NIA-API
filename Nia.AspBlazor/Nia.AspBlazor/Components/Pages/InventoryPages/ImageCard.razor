@@ -1,0 +1,79 @@
+﻿@page "/imagecard/{QrCode}"
+@inject HttpClient Http
+@using Microsoft.EntityFrameworkCore
+@using Nia.Domain.Entities
+@rendermode InteractiveServer
+
+
+@inject Radzen.DialogService dialogService
+
+<style>
+    .qr-frame {
+        background: #f4f4f4;
+        padding: 1rem;
+        border-radius: 6px;
+        display: inline-block;
+    }
+
+    .qr-large {
+        width: 150px;
+        height: 150px;
+    }
+</style>
+
+<RadzenStack Gap="1rem"
+             class="rz-border-radius-8"
+             Orientation="Orientation.Vertical"
+             Style="height:100%; padding:1rem; border-radius:40px;">
+
+    @* 1) CENTERED FRAME + IMAGE *@
+    <RadzenStack Orientation="Orientation.Vertical"
+                 AlignItems="AlignItems.Center"
+                 JustifyContent="JustifyContent.Center"
+                 Style="flex:1;">
+        <div class="qr-frame">
+            <img src="@data?.QrCode"
+                 alt="QR Code"
+                 class="qr-large" />
+        </div>
+    </RadzenStack>
+    <RadzenStack Orientation="Orientation.Vertical"
+                 AlignItems="AlignItems.Center"
+                 Style="gap:0.25rem;">
+        <RadzenText Text="@data?.Item?.Unit"
+                    Class="qr-item-name" Style="color: green; font-weight: bold;" />
+        <RadzenText Text="@data?.Item?.Description"
+                    Class="qr-item-sub" />
+    </RadzenStack>
+
+    @* 2) CLOSE BUTTON AT BOTTOM *@
+    <RadzenStack Orientation="Orientation.Horizontal"
+                 JustifyContent="JustifyContent.SpaceBetween"
+                 Gap="0.5rem">
+        <RadzenButton Text="Print QR Code"
+                      Icon="print"
+                      Style="flex:1; background-color:#00a550; color:white;"
+                       />
+        <RadzenButton Text="Close"
+                      Variant="Variant.Flat"
+                      Style="width:120px; background-color: orangered;"
+                      Click="@( () => dialogService.Close(true) )" />
+    </RadzenStack>
+</RadzenStack>
+@* <p>@data?.Guid</p> *@
+@code {
+    [Parameter] public string QrCode { get; set; }
+
+    // private Guid QrCodeGuid => Guid.TryParse(QrCode, out var g) ? g : Guid.Empty;
+    [Parameter] public bool ShowClose { get; set; } = true;
+    private QRCode? response;
+    private QRCode? data;
+
+    protected override async Task OnInitializedAsync()
+    {
+        response = await Http.GetFromJsonAsync<QRCode>($"/api/items/{QrCode}/qr");
+        var qr = response;
+        data = qr;
+    }
+    
+}

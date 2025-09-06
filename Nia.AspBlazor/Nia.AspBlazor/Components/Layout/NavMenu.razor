@@ -1,0 +1,84 @@
+﻿@* <div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Nia.AspBlazor</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="weather">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+            </NavLink>
+        </div>
+    </nav>
+</div> *@
+
+<style>
+    .RadzenSidebarToggle:hover{
+        background-color: white !important;
+        color: forestgreen !important;
+    }
+    .rz-navigation-item-link{
+        padding: 15px 20px !important;
+    }
+</style>
+
+@inherits LayoutComponentBase
+@rendermode InteractiveServer
+
+
+<RadzenStack style="background-color: white; height: 57px;" Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+    <RadzenSidebarToggle class="RadzenSidebarToggle" style="color: #333;" Click="@(() => sidebarExpanded = !sidebarExpanded)" />
+    <RadzenLabel Text="Welcome!" />
+</RadzenStack>
+<RadzenSidebar @bind-Expanded="@sidebarExpanded">
+    <div class="d-flex align-items-center mb-4" style="height: 3.6rem; padding: 0.5rem 0 0 1rem;">
+        <img src="images/logo.png" alt="Logo" style="width:40px; margin-right:8px;" />
+        <h5 class="m-0">IrrigTrack</h5>
+    </div>
+    <RadzenPanelMenu Style="border:none;">
+        
+        <RadzenPanelMenuItem Text="Dashboard" Icon="dashboard" Path="/" Style="border: none;" />
+        <RadzenPanelMenuItem Text="Inventory" Icon="deployed_code" Path="/inventory" Style="border: none;" />
+        <RadzenPanelMenuItem Text="Admins" Icon="person" Path="/admins" Style="border: none;" />
+        <RadzenPanelMenuItem Text="Analytics" Icon="bar_chart" Path="/analytics" Style="border: none;" />
+        <RadzenPanelMenuItem Style="border: none;">
+            <Template>
+                <RadzenButton Text="Create account"
+                              Icon="person_add"
+                              Style="width:100%; margin-top:16px; background-color: #228c22;" />
+            </Template>
+        </RadzenPanelMenuItem>
+    </RadzenPanelMenu>
+        
+</RadzenSidebar>
+@code {
+    bool sidebarExpanded = true;
+}
+
+
+@* @inherits LayoutComponentBase
+<MudNavMenu>
+    <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+    <MudNavLink Href="/servers" Match="NavLinkMatch.Prefix">Servers</MudNavLink>
+    <MudNavGroup Title="Settings" Expanded="true">
+        <MudNavLink Href="/users" Match="NavLinkMatch.Prefix">Users</MudNavLink>
+        <MudNavLink Href="/security" Match="NavLinkMatch.Prefix">Security</MudNavLink>
+    </MudNavGroup>
+    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">About</MudNavLink>
+</MudNavMenu> *@
