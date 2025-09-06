@@ -1,4 +1,0 @@
-wwwroot\appsettings.Development.json
-wwwroot\appsettings.json
-C:\Users\fidel\source\repos\NIA\Nia.AspBlazor\Nia.AspBlazor.Client\wwwroot\appsettings.Development.json
-C:\Users\fidel\source\repos\NIA\Nia.AspBlazor\Nia.AspBlazor.Client\wwwroot\appsettings.json
